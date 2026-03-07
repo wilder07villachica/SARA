@@ -1,7 +1,7 @@
+// frontend-login/app.js
+
 // al cargar login, limpia bandera de sesión activa del navegador
 localStorage.setItem("ms_auth_active", "false");
-
-const API_BASE = "http://localhost:8080"; // puerto/host backend
 
 const el = (id) => document.getElementById(id);
 
@@ -15,7 +15,7 @@ const btnAutofill = el("btnAutofill");
 
 const statusBox = el("status");
 const apiBaseText = el("apiBaseText");
-if (apiBaseText) apiBaseText.textContent = API_BASE;
+if (apiBaseText) apiBaseText.textContent = AUTH_BASE;
 
 function setStatus(msg) {
   statusBox.textContent = msg;
@@ -45,12 +45,6 @@ async function postForm(url, dataObj) {
 function saveSession(username, active) {
   localStorage.setItem("ms_auth_username", username || "");
   localStorage.setItem("ms_auth_active", active ? "true" : "false");
-}
-
-function loadSession() {
-  const u = localStorage.getItem("ms_auth_username") || "";
-  const active = localStorage.getItem("ms_auth_active") === "true";
-  return { u, active };
 }
 
 function restoreUI() {
@@ -84,7 +78,7 @@ loginForm.addEventListener("submit", async (e) => {
   btnLogin.disabled = true;
 
   try {
-    const msg = await postForm(`${API_BASE}/auth/login`, { username, password });
+    const msg = await postForm(`${AUTH_BASE}/auth/login`, { username, password });
     saveSession(username, true);
     setStatus(msg || "Login exitoso");
 
@@ -107,7 +101,7 @@ btnLogout?.addEventListener("click", async () => {
   btnLogout.disabled = true;
 
   try {
-    const msg = await postForm(`${API_BASE}/auth/logout`, { username });
+    const msg = await postForm(`${AUTH_BASE}/auth/logout`, { username });
     saveSession(username, false);
     setLoggedInUI(false);
     passwordInput.value = "";

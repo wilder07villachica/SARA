@@ -1,5 +1,4 @@
-const AUTH_BASE = "http://localhost:8080"; // ms_auth
-const API_BASE  = "http://localhost:8081"; // ms_backend_api
+// frontend-login/dashboard.js
 const el = (id) => document.getElementById(id);
 
 function getSession() {
@@ -91,7 +90,7 @@ el("btnBuscar").addEventListener("click", async () => {
     setText("eq_modelo", d.modelo);
     setText("eq_condicion", d.condicionImei);
 
-    // IMSI (tu tabla no lo tiene todavía)
+    // IMSI (no está en tu tabla)
     setText("eq_imsi", "—");
     setText("ln_imsi", "—");
 
