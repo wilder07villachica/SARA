@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MS Auth - Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-center">
+    <main class="container">
+        <section class="card">
+          <h1>Iniciar sesión</h1>
+          <p class="muted">LDAP embebido + sesiones</p>
+
+          <form id="loginForm">
+            <label>
+              Usuario
+              <input id="username" name="username" type="text" placeholder="testuser" required />
+            </label>
+
+            <label>
+              Contraseña
+              <input id="password" name="password" type="password" placeholder="test123" required />
+            </label>
+
+            <button id="btnLogin" type="submit">Entrar</button>
+          </form>
+
+          <div class="row">
+            <button id="btnLogout" class="secondary" type="button" disabled>Cerrar sesión</button>
+            <button id="btnAutofill" class="ghost" type="button">Usar testuser</button>
+          </div>
+
+          <div id="status" class="status" role="status" aria-live="polite"></div>
+        </section>
+
+        <footer class="footer">
+          <small class="muted">
+            Backend: <code id="apiBaseText"></code>
+          </small>
+        </footer>
+      </main>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
