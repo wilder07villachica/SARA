@@ -11,7 +11,9 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                        "https://sara-mmkq.onrender.com"   // <-- tu FRONT en Render
+                        "http://localhost:5500",
+                        "http://127.0.0.1:5500",
+                        "https://sara-mmkq.onrender.com"
                 )
                 .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
                 .allowedHeaders("*")

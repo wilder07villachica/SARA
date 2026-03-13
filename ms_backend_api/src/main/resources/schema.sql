@@ -53,3 +53,21 @@ CREATE TABLE linea_diagnostico_consolidado (
     pcrf_apnAprovisionados VARCHAR(50),
     pcrf_portabilidad VARCHAR(50)
 );
+
+CREATE TABLE IF NOT EXISTS consulta_auditoria (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    numero VARCHAR(20) NOT NULL,
+    usuario VARCHAR(80) NOT NULL,
+    fecha_hora TIMESTAMP NOT NULL,
+    prioridad VARCHAR(10),
+    recomendacion VARCHAR(255),
+    alerta_masiva BOOLEAN DEFAULT FALSE,
+    criterio_masivo VARCHAR(60),
+    resultado VARCHAR(20)
+    );
+
+CREATE INDEX IF NOT EXISTS idx_aud_num_fecha
+    ON consulta_auditoria(numero, fecha_hora);
+
+CREATE INDEX IF NOT EXISTS idx_aud_criterio_fecha
+    ON consulta_auditoria(criterio_masivo, fecha_hora);

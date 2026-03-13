@@ -27,7 +27,8 @@ public interface LineaDashboardProjection {
     String getVozAccesible();
     LocalDateTime getVozFechaRegistro();
 
-    // Datos (RedViva)
+    // ✅ Datos (RedViva)
+    String getDatosEstadoRed();  // <-- NUEVO (redviva_estadoRedDatos)
     String getDatosUltimoNe();
     String getDatosPaisOperador();
     String getDatosUltimaRed();

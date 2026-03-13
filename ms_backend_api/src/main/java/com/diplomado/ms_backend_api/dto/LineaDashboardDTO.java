@@ -31,6 +31,8 @@ public class LineaDashboardDTO {
     private String vozAccesible;
     private LocalDateTime vozFechaRegistro;
 
+    private String datosEstadoRed;
+
     private String datosUltimoNe;
     private String datosPaisOperador;
     private String datosUltimaRed;

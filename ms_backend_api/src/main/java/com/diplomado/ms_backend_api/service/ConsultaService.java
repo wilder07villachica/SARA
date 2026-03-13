@@ -37,6 +37,8 @@ public class ConsultaService {
                 .vozAccesible(p.getVozAccesible())
                 .vozFechaRegistro(p.getVozFechaRegistro())
 
+                .datosEstadoRed(p.getDatosEstadoRed())
+
                 .datosUltimoNe(p.getDatosUltimoNe())
                 .datosPaisOperador(p.getDatosPaisOperador())
                 .datosUltimaRed(p.getDatosUltimaRed())

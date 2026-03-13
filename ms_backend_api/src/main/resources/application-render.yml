@@ -21,3 +21,6 @@ h2:
   console:
     enabled: true
     path: /h2-console
+
+msauth:
+  base-url: ${MSAUTH_BASE_URL:https://ms-auth-2w01.onrender.com}

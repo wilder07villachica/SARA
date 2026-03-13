@@ -24,3 +24,6 @@ spring:
     console:
       enabled: true
       path: /h2
+
+msauth:
+  base-url: ${MSAUTH_BASE_URL:http://localhost:8080}

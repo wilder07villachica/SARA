@@ -6,14 +6,17 @@ spring:
     name: ms-auth
 
   datasource:
-    url: jdbc:mysql://localhost:3306/ms_auth
-    username: root
-    password: root
+    url: jdbc:h2:file:/tmp/authdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
 
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
-    properties:
+    jpa:
       hibernate:
-        format_sql: true
+        ddl-auto: update
+      show-sql: false
+
+    h2:
+      console:
+        enabled: true
+        path: /h2
