@@ -47,7 +47,7 @@ public interface LineaRepository extends JpaRepository<LineaRow, String> {
           redviva_ultimaCeldaDatos AS datosUltimaCelda,
           redviva_ultimoRegistroConexion AS datosUltimoRegistro,
           redviva_apnUso AS apnUso,
-          redviva_ipApn AS ipApn,
+          redviva_ipApn AS ipApn
 
         FROM linea_diagnostico_consolidado
         WHERE numeroTelefono = :numero
