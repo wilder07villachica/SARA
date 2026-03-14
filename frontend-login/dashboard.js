@@ -23,11 +23,98 @@ function requireSessionOrRedirect() {
 /** Set text AND tooltip (title) so you can see full value on hover */
 function setText(id, value) {
   const node = el(id);
+  if (!node) return;
   const v = (value === null || value === undefined || value === "") ? "—" : String(value);
   node.textContent = v;
-  node.title = v; // tooltip
+  node.title = v;
 }
 
+/* ===== Modal Recomendación ===== */
+function openRecoModal(title, detail) {
+  el("recoTitle").textContent = title || "Recomendación";
+  el("recoDetail").textContent = detail || "—";
+  el("modalReco").classList.remove("hidden");
+}
+function closeRecoModal() {
+  el("modalReco").classList.add("hidden");
+}
+el("btnCloseReco").addEventListener("click", closeRecoModal);
+el("btnOkReco").addEventListener("click", closeRecoModal);
+el("modalReco").addEventListener("click", (e) => {
+  if (e.target.id === "modalReco") closeRecoModal();
+});
+
+/* ===== Toasts ===== */
+function showToast(kind, title, msg, ms = 4500) {
+  const host = el("toastHost");
+  const div = document.createElement("div");
+  div.className = `toast ${kind}`;
+  div.innerHTML = `<p class="t-title">${title}</p><p class="t-msg">${msg}</p>`;
+  host.appendChild(div);
+
+  setTimeout(() => {
+    div.style.opacity = "0";
+    div.style.transform = "translateY(-6px)";
+    div.style.transition = "all .25s ease";
+    setTimeout(() => div.remove(), 260);
+  }, ms);
+}
+
+/* ===== Historial ===== */
+function fmtDate(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return String(iso);
+  return d.toLocaleString();
+}
+function badgeForPriority(p) {
+  const val = (p || "").toUpperCase();
+  const cls = val === "P1" ? "p1" : val === "P2" ? "p2" : val === "P3" ? "p3" : "na";
+  return `<span class="badge ${cls}">${val || "—"}</span>`;
+}
+function renderHistorial(items) {
+  const body = el("histBody");
+  if (!body) return;
+
+  if (!items || items.length === 0) {
+    body.innerHTML = `<tr><td colspan="4" class="muted">Sin historial</td></tr>`;
+    return;
+  }
+  body.innerHTML = items.map(it => `
+    <tr>
+      <td>${fmtDate(it.fechaHora)}</td>
+      <td>${badgeForPriority(it.prioridad)}</td>
+      <td title="${(it.recomendacion || "—").replaceAll('"', "'")}">${it.recomendacion || "—"}</td>
+      <td>${it.resultado || "—"}</td>
+    </tr>
+  `).join("");
+}
+
+/* ===== Indicadores (dots de color) ===== */
+function setDot(dotId, state) {
+  const dot = el(dotId);
+  if (!dot) return;
+
+  dot.classList.remove("ok", "warn", "off", "na");
+
+  // state: OK / NO_REGISTRADO / NO_DISPONIBLE
+  if (state === "OK") dot.classList.add("ok");
+  else if (state === "NO_REGISTRADO") dot.classList.add("off");
+  else if (state === "NO_DISPONIBLE") dot.classList.add("na");
+  else dot.classList.add("na");
+}
+
+function setApnDot(apnValue) {
+  // APN: si hay APN -> OK (verde), si no hay -> warn (amarillo)
+  const has = !!(apnValue && String(apnValue).trim() && apnValue !== "—");
+  const dot = el("indApnDot");
+  if (!dot) return;
+
+  dot.classList.remove("ok", "warn", "off", "na");
+  dot.classList.add(has ? "ok" : "warn");
+}
+
+/* ===== Logout ===== */
 async function logoutBackend(username) {
   const body = new URLSearchParams({ username }).toString();
 
@@ -56,9 +143,11 @@ el("btnCerrar").addEventListener("click", async () => {
   window.location.href = "index.html";
 });
 
-// Consumo de búsqueda
-async function consultarNumero(numero) {
-  const res = await fetch(`${API_BASE}/api/consultar?numero=${encodeURIComponent(numero)}`, {
+/* ===== Endpoint consolidado ===== */
+async function consultarDiagnostico(numero, usuario) {
+  const url = `${API_BASE}/api/diagnostico?numero=${encodeURIComponent(numero)}&usuario=${encodeURIComponent(usuario)}`;
+
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Accept": "application/json" }
   });
@@ -70,14 +159,17 @@ async function consultarNumero(numero) {
   return res.json();
 }
 
+/* ===== Buscar ===== */
 el("btnBuscar").addEventListener("click", async () => {
   const msisdn = el("msisdn").value.trim();
   if (!msisdn) return setStatus("Ingresa un número para buscar.");
 
-  setStatus("Consultando...");
+  const { username } = getSession();
+  setStatus("Consultando diagnóstico...");
 
   try {
-    const d = await consultarNumero(msisdn);
+    const r = await consultarDiagnostico(msisdn, username);
+    const d = r.linea;
 
     // Número
     setText("eq_num", d.numeroTelefono);
@@ -99,7 +191,7 @@ el("btnBuscar").addEventListener("click", async () => {
     setText("ln_tech", d.tecnologiaActiva);
     setText("ln_plan", d.planComercial);
 
-    // Voz
+    // Voz (texto)
     setText("voz_estado", d.vozEstado);
     setText("voz_vrl", d.vozVlr);
     setText("voz_pais", d.vozPaisOperador);
@@ -108,14 +200,48 @@ el("btnBuscar").addEventListener("click", async () => {
     setText("voz_celda", d.vozUltimaCelda);
     setText("voz_access", d.vozAccesible);
 
-    // Datos
+    // Datos (texto)
     setText("dat_ne", d.datosUltimoNe);
     setText("dat_pais", d.datosPaisOperador);
     setText("dat_red", d.datosUltimaRed);
     setText("dat_celda", d.datosUltimaCelda);
     setText("dat_ult", d.datosUltimoRegistro);
 
-    setStatus(`Consulta OK: ${msisdn}`);
+    // ✅ NUEVO: Estado red datos y APN en uso (si existen los IDs en HTML)
+    setText("dat_estado", d.datosEstadoRed);
+    setText("dat_apn", d.apnUso);
+
+    // Historial panel derecho
+    renderHistorial(r.historial72h);
+
+    // ✅ NUEVO: dots de color desde indicadores
+    setDot("indVozDot", r.indicadores?.redVoz);
+    setDot("indDatosDot", r.indicadores?.redDatos);
+    setApnDot(d.apnUso);
+
+    // Toast prioridad
+    if (r.prioridad?.nivel) {
+      const p = r.prioridad.nivel;
+      const kind = p === "P2" ? "danger" : p === "P1" ? "warn" : "info";
+      showToast(kind, `Prioridad ${p}`, `${r.prioridad.accion}. ${r.prioridad.motivo || ""}`.trim());
+    }
+
+    // Popup alerta masiva
+    if (r.alertaMasiva?.activa) {
+      showToast(
+        "danger",
+        "Posible falla masiva",
+        `${r.alertaMasiva.casos} casos en las últimas ${r.alertaMasiva.ventanaHoras}h (${r.alertaMasiva.criterio}).`,
+        6500
+      );
+    }
+
+    // Modal recomendación
+    if (r.recomendacion?.titulo || r.recomendacion?.detalle) {
+      openRecoModal(r.recomendacion.titulo, r.recomendacion.detalle);
+    }
+
+    setStatus(`Diagnóstico OK: ${msisdn}`);
   } catch (e) {
     setStatus(`Error: ${e.message}`);
   }

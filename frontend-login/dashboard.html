@@ -21,95 +21,157 @@
       </div>
     </header>
 
-    <section class="grid">
-      <!-- Datos del Equipo -->
-      <article class="panel panel-equipo">
-        <div class="panel-head">Datos del Equipo</div>
-        <div class="panel-body two-col">
-          <div class="kv"><span>NÚMERO:</span><b id="eq_num">—</b></div>
-          <div class="kv"><span>IMSI:</span><b id="eq_imsi">—</b></div>
-          <div class="kv"><span>IMEI:</span><b id="eq_imei">—</b></div>
-          <div class="kv"><span>ESTADO IMEI:</span><b id="eq_estado_imei">—</b></div>
-          <div class="kv"><span>MARCA:</span><b id="eq_marca">—</b></div>
-          <div class="kv"><span>MODELO:</span><b id="eq_modelo">—</b></div>
-          <div class="kv"><span>CONDICIÓN IMEI:</span><b id="eq_condicion">—</b></div>
-        </div>
-
-        <div class="panel-actions">
-          <button class="btn small">Reinicio total</button>
-          <button class="btn small">Reinicio Datos</button>
-        </div>
-      </article>
-
-      <!-- Aprovisionamiento -->
-      <article class="panel panel-aprov">
-        <div class="panel-head">Aprovisionamiento de la Línea</div>
-
-        <div class="panel-body aprov-grid">
-          <div class="col">
-            <div class="kv-row"><span>NÚMERO:</span><b id="ln_num">—</b><span class="spacer"></span></div>
-            <div class="kv-row"><span>IMSI:</span><b id="ln_imsi">—</b><span class="spacer"></span></div>
-            <div class="kv-row"><span>PERFIL SUSCRIPTOR:</span><b id="ln_perfil">—</b><span class="spacer"></span></div>
-            <div class="kv-row"><span>TECNOLOGÍA ACTIVA:</span><b id="ln_tech">—</b><span class="spacer"></span></div>
-            <div class="kv-row"><span>PLAN COMERCIAL:</span><b id="ln_plan">—</b><span class="spacer"></span></div>
-
-            <div class="kv-row"><span>ESTADO DE SERVICIOS:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>VOZ WIFI:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>SERVICIO DE DATOS:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>SERVICIOS BÁSICOS:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>SALDOS:</span><b>—</b><span class="icon-plus">+</span></div>
+    <!-- ✅ Layout principal + panel derecho -->
+    <section class="layout">
+      <!-- ✅ tu grid principal -->
+      <section class="grid">
+        <!-- Datos del Equipo -->
+        <article class="panel panel-equipo">
+          <div class="panel-head">Datos del Equipo</div>
+          <div class="panel-body two-col">
+            <div class="kv"><span>NÚMERO:</span><b id="eq_num">—</b></div>
+            <div class="kv"><span>IMSI:</span><b id="eq_imsi">—</b></div>
+            <div class="kv"><span>IMEI:</span><b id="eq_imei">—</b></div>
+            <div class="kv"><span>ESTADO IMEI:</span><b id="eq_estado_imei">—</b></div>
+            <div class="kv"><span>MARCA:</span><b id="eq_marca">—</b></div>
+            <div class="kv"><span>MODELO:</span><b id="eq_modelo">—</b></div>
+            <div class="kv"><span>CONDICIÓN IMEI:</span><b id="eq_condicion">—</b></div>
           </div>
 
-          <div class="col">
-            <div class="kv-row"><span>SERV. SUPLEMENTARIOS:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>SERV. ADICIONALES:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>APN’S APROVISIONADAS:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>PORTABILIDAD:</span><b>—</b><span class="icon-plus">+</span></div>
+          <div class="panel-actions">
+            <button class="btn small">Reinicio total</button>
+            <button class="btn small">Reinicio Datos</button>
+          </div>
+        </article>
 
-            <div class="kv-row"><span>SERIE ORIGINAL:</span><b>—</b><span class="dot ok"></span></div>
+        <!-- Aprovisionamiento -->
+        <article class="panel panel-aprov">
+          <div class="panel-head">Aprovisionamiento de la Línea</div>
 
-            <div class="kv-row"><span>CONDICIÓN VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>ANCLAJE VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>ENRUTAMIENTO VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
-            <div class="kv-row"><span>ROAMING VOLTE 4G:</span><b>—</b><span class="icon-plus">+</span></div>
+          <div class="panel-body aprov-grid">
+            <div class="col">
+              <div class="kv-row"><span>NÚMERO:</span><b id="ln_num">—</b><span class="spacer"></span></div>
+              <div class="kv-row"><span>IMSI:</span><b id="ln_imsi">—</b><span class="spacer"></span></div>
+              <div class="kv-row"><span>PERFIL SUSCRIPTOR:</span><b id="ln_perfil">—</b><span class="spacer"></span></div>
+              <div class="kv-row"><span>TECNOLOGÍA ACTIVA:</span><b id="ln_tech">—</b><span class="spacer"></span></div>
+              <div class="kv-row"><span>PLAN COMERCIAL:</span><b id="ln_plan">—</b><span class="spacer"></span></div>
+
+              <div class="kv-row"><span>ESTADO DE SERVICIOS:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>VOZ WIFI:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>SERVICIO DE DATOS:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>SERVICIOS BÁSICOS:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>SALDOS:</span><b>—</b><span class="icon-plus">+</span></div>
+            </div>
+
+            <div class="col">
+              <div class="kv-row"><span>SERV. SUPLEMENTARIOS:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>SERV. ADICIONALES:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>APN’S APROVISIONADAS:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>PORTABILIDAD:</span><b>—</b><span class="icon-plus">+</span></div>
+
+              <div class="kv-row"><span>SERIE ORIGINAL:</span><b>—</b><span class="dot ok"></span></div>
+
+              <div class="kv-row"><span>CONDICIÓN VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>ANCLAJE VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>ENRUTAMIENTO VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>VOLTE:</span><b>—</b><span class="icon-plus">+</span></div>
+              <div class="kv-row"><span>ROAMING VOLTE 4G:</span><b>—</b><span class="icon-plus">+</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Datos -->
+        <article class="panel panel-datos">
+          <div class="panel-head">Registro en la Red de Datos</div>
+          <div class="panel-body two-col">
+            <!-- ✅ ESTADO DATOS + indicador -->
+            <div class="kv kv-ind">
+              <span>ESTADO:</span>
+              <b id="dat_estado">—</b>
+              <span id="indDatosDot" class="dot"></span>
+            </div>
+
+            <div class="kv"><span>ÚLTIMO NE REGISTRADO:</span><b id="dat_ne">—</b></div>
+            <div class="kv"><span>PAÍS/OPERADOR:</span><b id="dat_pais">—</b></div>
+            <div class="kv"><span>ÚLTIMA RED REGISTRADA:</span><b id="dat_red">—</b></div>
+            <div class="kv"><span>ÚLTIMA CELDA REGISTRADA:</span><b id="dat_celda">—</b></div>
+            <div class="kv"><span>ÚLTIMO REGISTRO DE CONEXIÓN:</span><b id="dat_ult">—</b></div>
+
+            <!-- ✅ APN EN USO + indicador -->
+            <div class="kv kv-ind">
+              <span>APN EN USO:</span>
+              <b id="dat_apn">—</b>
+              <span id="indApnDot" class="dot"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Voz -->
+        <article class="panel panel-voz">
+          <div class="panel-head">Estado del servicio en la Red de Voz</div>
+          <div class="panel-body two-col">
+            <!-- ✅ ESTADO VOZ + indicador -->
+            <div class="kv kv-ind">
+              <span>ESTADO:</span>
+              <b id="voz_estado">—</b>
+              <span id="indVozDot" class="dot"></span>
+            </div>
+
+            <div class="kv"><span>VRL REGISTRADA:</span><b id="voz_vrl">—</b></div>
+            <div class="kv"><span>PAÍS/OPERADOR:</span><b id="voz_pais">—</b></div>
+            <div class="kv"><span>RED REGISTRADA:</span><b id="voz_red">—</b></div>
+            <div class="kv"><span>DISPONIBILIDAD:</span><b id="voz_disp">—</b></div>
+            <div class="kv"><span>ÚLTIMA CELDA REGISTRO LLAMADA:</span><b id="voz_celda">—</b></div>
+            <div class="kv"><span>ACCESSIBLE:</span><b id="voz_access">—</b></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ✅ Panel derecho fijo -->
+      <aside class="sidepanel">
+        <div class="panel">
+          <div class="panel-head">Historial (últimas 72h)</div>
+          <div class="panel-body">
+            <table class="history">
+              <thead>
+                <tr>
+                  <th>Fecha/Hora</th>
+                  <th>Prioridad</th>
+                  <th>Recomendación</th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody id="histBody">
+                <tr><td colspan="4" class="muted">Sin historial</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </article>
-
-      <!-- Datos -->
-      <article class="panel panel-datos">
-        <div class="panel-head">Registro en la Red de Datos</div>
-        <div class="panel-body two-col">
-          <div class="kv"><span>ESTADO:</span><span class="icon-plus">+</span></div>
-          <div class="kv"><span>ÚLTIMO NE REGISTRADO:</span><b id="dat_ne">—</b></div>
-          <div class="kv"><span>PAÍS/OPERADOR:</span><b id="dat_pais">—</b></div>
-          <div class="kv"><span>ÚLTIMA RED REGISTRADA:</span><b id="dat_red">—</b></div>
-          <div class="kv"><span>ÚLTIMA CELDA REGISTRADA:</span><b id="dat_celda">—</b></div>
-          <div class="kv"><span>ÚLTIMO REGISTRO DE CONEXIÓN:</span><b id="dat_ult">—</b></div>
-          <div class="kv"><span>APN EN USO:</span><span class="icon-plus">+</span></div>
-        </div>
-      </article>
-
-      <!-- Voz -->
-      <article class="panel panel-voz">
-        <div class="panel-head">Estado del servicio en la Red de Voz</div>
-        <div class="panel-body two-col">
-          <div class="kv"><span>ESTADO:</span><b id="voz_estado">—</b></div>
-          <div class="kv"><span>VRL REGISTRADA:</span><b id="voz_vrl">—</b></div>
-          <div class="kv"><span>PAÍS/OPERADOR:</span><b id="voz_pais">—</b></div>
-          <div class="kv"><span>RED REGISTRADA:</span><b id="voz_red">—</b></div>
-          <div class="kv"><span>DISPONIBILIDAD:</span><b id="voz_disp">—</b></div>
-          <div class="kv"><span>ÚLTIMA CELDA REGISTRO LLAMADA:</span><b id="voz_celda">—</b></div>
-          <div class="kv"><span>ACCESSIBLE:</span><b id="voz_access">—</b></div>
-        </div>
-      </article>
+      </aside>
     </section>
 
     <div class="status" id="dashStatus" aria-live="polite"></div>
   </main>
 
-  <!-- ✅ primero config -->
+  <!-- ✅ Toasts -->
+  <div id="toastHost" class="toast-host" aria-live="polite"></div>
+
+  <!-- ✅ Modal recomendación -->
+  <div id="modalReco" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="recoTitle">Recomendación</h3>
+        <button id="btnCloseReco" class="x">×</button>
+      </div>
+      <div class="modal-body">
+        <p id="recoDetail" class="muted" style="margin:0;"></p>
+      </div>
+      <div class="modal-actions">
+        <button id="btnOkReco" class="btn">Entendido</button>
+      </div>
+    </div>
+  </div>
+
   <script src="config.js"></script>
   <script src="dashboard.js"></script>
 </body>
