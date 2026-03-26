@@ -497,21 +497,23 @@ html,body{
   gap:10px;
 }
 
+/* ---- Ajuste seguro para filas con indicador ---- */
 .kv{
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   gap:12px;
   padding:11px 12px;
   border:1px solid rgba(255,255,255,.08);
   border-radius:14px;
   background:var(--dash-panel-soft);
+  min-width:0;
 }
 
 .kv span{
   color:var(--dash-muted);
   font-size:12px;
   letter-spacing:.04em;
-  flex:0 0 46%;
+  flex:0 0 42%;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -525,13 +527,33 @@ html,body{
   flex:1 1 auto;
   min-width:0;
   text-align:right;
-  white-space:normal;
-  overflow-wrap:anywhere;
-  word-break:break-word;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
+/* ===== Filas con punto de estado ===== */
 .kv-ind{
+  display:grid;
+  grid-template-columns: 130px minmax(0, 1fr) 16px;
   align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.kv-ind span:first-child{
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.kv-ind b{
+  min-width:0;
+  text-align:right;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 /* ===== Aprovisionamiento simplificado ===== */
@@ -550,6 +572,7 @@ html,body{
   border:1px solid rgba(255,255,255,.08);
   border-radius:14px;
   background:var(--dash-panel-soft);
+  min-width:0;
 }
 
 .kv-row span{
@@ -569,13 +592,13 @@ html,body{
   font-weight:800;
   text-align:left;
   min-width:0;
-  white-space:normal;
-  overflow-wrap:anywhere;
-  word-break:break-word;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
 .kv-row-dot{
-  grid-template-columns:150px 1fr 20px;
+  grid-template-columns:150px minmax(0, 1fr) 20px;
 }
 
 /* ===== Indicadores por color ===== */
@@ -586,12 +609,20 @@ html,body{
   display:inline-block;
   flex:0 0 12px;
   min-width:12px;
+  max-width:12px;
+  min-height:12px;
+  max-height:12px;
   border:1px solid rgba(255,255,255,.16);
   background:rgba(255,255,255,.28);
   margin-left:auto;
 }
 
 .kv-row-dot .dot{
+  justify-self:end;
+  margin-left:0;
+}
+
+.kv-ind .dot{
   justify-self:end;
   margin-left:0;
 }
@@ -812,5 +843,9 @@ html,body{
 
   .topbar-search input#msisdn{
     width:100%;
+  }
+
+  .kv-ind{
+    grid-template-columns: 120px minmax(0, 1fr) 16px;
   }
 }
