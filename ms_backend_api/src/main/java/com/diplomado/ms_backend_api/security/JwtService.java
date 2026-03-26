@@ -1,14 +1,14 @@
-package com.diplomado.ms_backend_api.service.security;
+package com.diplomado.ms_backend_api.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class JwtService {
@@ -20,12 +20,7 @@ public class JwtService {
 
     @PostConstruct
     public void init() {
-        byte[] keyBytes;
-        try {
-            keyBytes = Decoders.BASE64.decode(secret);
-        } catch (Exception e) {
-            keyBytes = secret.getBytes();
-        }
+        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 

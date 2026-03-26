@@ -29,4 +29,4 @@ msauth:
   base-url: ${MSAUTH_BASE_URL:http://localhost:8080}
 
 jwt:
-  secret: ${JWT_SECRET:12345678901234567890123456789012}
+  secret: ${JWT_SECRET:mi_clave_super_segura_jwt_2026_1234567890}

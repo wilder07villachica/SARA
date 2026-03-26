@@ -1,8 +1,8 @@
 package com.diplomado.ms_backend_api.controller;
 
 import com.diplomado.ms_backend_api.dto.response.DiagnosticoResponseDTO;
+import com.diplomado.ms_backend_api.security.JwtService;
 import com.diplomado.ms_backend_api.service.diagnostico.DiagnosticoService;
-import com.diplomado.ms_backend_api.service.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

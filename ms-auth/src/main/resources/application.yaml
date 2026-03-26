@@ -22,5 +22,5 @@ spring:
       path: /h2
 
 jwt:
-  secret: ${JWT_SECRET:12345678901234567890123456789012}
+  secret: ${JWT_SECRET:mi_clave_super_segura_jwt_2026_1234567890}
   expiration-minutes: ${JWT_EXP_MIN:60}
