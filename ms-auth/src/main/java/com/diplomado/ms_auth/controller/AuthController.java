@@ -1,5 +1,6 @@
 package com.diplomado.ms_auth.controller;
 
+import com.diplomado.ms_auth.dto.LoginResponseDto;
 import com.diplomado.ms_auth.dto.SessionStatusDTO;
 import com.diplomado.ms_auth.services.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,16 +16,16 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String username,
-                                   @RequestParam String password,
-                                   HttpServletRequest request) {
+    public ResponseEntity<LoginResponseDto> login(@RequestParam String username,
+                                                  @RequestParam String password,
+                                                  HttpServletRequest request) {
         String ip = request.getRemoteAddr();
         return ResponseEntity.ok(authService.login(username, password, ip));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestParam String username) {
-        return ResponseEntity.ok(authService.logout(username));
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorizationHeader) {
+        return ResponseEntity.ok(authService.logout(authorizationHeader));
     }
 
     @GetMapping("/session")

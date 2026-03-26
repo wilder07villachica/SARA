@@ -2,11 +2,10 @@ package com.diplomado.ms_backend_api.controller;
 
 import com.diplomado.ms_backend_api.dto.response.DiagnosticoResponseDTO;
 import com.diplomado.ms_backend_api.service.diagnostico.DiagnosticoService;
+import com.diplomado.ms_backend_api.service.security.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -14,17 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiagnosticoController {
 
     private final DiagnosticoService diagnosticoService;
+    private final JwtService jwtService;
 
     @PostMapping("/diagnostico")
     public DiagnosticoResponseDTO diagnostico(@RequestParam String numero,
-                                              @RequestParam String usuario) {
+                                              HttpServletRequest request) {
 
         if (!numero.matches("^\\d{9,15}$")) {
             throw new RuntimeException("Formato inválido (9-15 dígitos)");
         }
-        if (usuario == null || usuario.isBlank()) {
-            throw new RuntimeException("Usuario requerido");
+
+        String authHeader = request.getHeader("Authorization");
+        String token = jwtService.resolveToken(authHeader);
+
+        if (!jwtService.isTokenValid(token)) {
+            throw new RuntimeException("Token inválido o expirado");
         }
+
+        String usuario = jwtService.extractUsername(token);
 
         return diagnosticoService.diagnosticar(numero, usuario);
     }

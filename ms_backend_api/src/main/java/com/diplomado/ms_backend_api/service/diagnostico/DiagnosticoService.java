@@ -23,18 +23,14 @@ public class DiagnosticoService {
 
     public DiagnosticoResponseDTO diagnosticar(String numero, String usuario) {
 
-        // 1) validar sesión activa con ms-auth
         sessionValidator.requireActiveSession(usuario);
 
-        // 2) consultar data consolidada
         LineaDashboardDTO linea = consultaService.consultar(numero);
 
-        // 3) indicadores + prioridad + recomendación
         IndicadoresDTO indicadores = reglas.calcularIndicadores(linea);
         PrioridadDTO prioridad = reglas.calcularPrioridad(indicadores);
         RecomendacionDTO recomendacion = reglas.generarRecomendacion(indicadores);
 
-        // 4) masivo (últimas 3 horas por criterio)
         String criterioMasivo = criterio(indicadores);
         int ventanaHoras = 3;
 
@@ -42,10 +38,8 @@ public class DiagnosticoService {
                 criterioMasivo, LocalDateTime.now().minusHours(ventanaHoras)
         );
 
-        // incluye esta consulta (porque aún no la guardas)
         long casos = casosPrevios + 1;
 
-        // no activar masivo si no hay criterio relevante
         boolean alerta = !"SIN_CRITERIO".equals(criterioMasivo) && casos >= 3;
 
         AlertaMasivaDTO alertaMasiva = AlertaMasivaDTO.builder()
@@ -55,7 +49,6 @@ public class DiagnosticoService {
                 .criterio(criterioMasivo)
                 .build();
 
-        // 5) historial 72h del mismo número
         List<HistorialItemDTO> historial = auditoriaRepo
                 .findTop10ByNumeroAndFechaHoraAfterOrderByFechaHoraDesc(
                         numero, LocalDateTime.now().minusHours(72)
@@ -69,7 +62,6 @@ public class DiagnosticoService {
                         .build())
                 .toList();
 
-        // 6) guardar auditoría de esta consulta
         auditoriaRepo.save(ConsultaAuditoria.builder()
                 .numero(numero)
                 .usuario(usuario)
@@ -81,7 +73,6 @@ public class DiagnosticoService {
                 .resultado("OK")
                 .build());
 
-        // 7) respuesta consolidada
         return DiagnosticoResponseDTO.builder()
                 .linea(linea)
                 .indicadores(indicadores)

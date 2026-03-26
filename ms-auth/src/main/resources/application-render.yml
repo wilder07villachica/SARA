@@ -4,10 +4,16 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
+
   h2:
     console:
       enabled: true
+
+jwt:
+  secret: ${JWT_SECRET:12345678901234567890123456789012}
+  expiration-minutes: ${JWT_EXP_MIN:60}

@@ -1,5 +1,6 @@
 package com.diplomado.ms_auth.services;
 
+import com.diplomado.ms_auth.dto.LoginResponseDto;
 import com.diplomado.ms_auth.dto.SessionStatusDTO;
 import com.diplomado.ms_auth.models.Session;
 import com.diplomado.ms_auth.repository.SessionRepository;
@@ -15,29 +16,42 @@ public class AuthService {
 
     private final LdapService ldapService;
     private final SessionRepository sessionRepository;
+    private final JwtService jwtService;
 
     @Transactional
-    public String login(String username, String password, String ip) {
+    public LoginResponseDto login(String username, String password, String ip) {
+
         if (sessionRepository.existsByUsuarioLdapAndEstado(username, "ACTIVA")) {
             throw new RuntimeException("Ya existe una sesión activa para este usuario");
         }
 
-        if (!ldapService.authenticate(username, password)) {
+        LdapService.AuthenticatedUser user = ldapService.authenticate(username, password);
+        if (user == null) {
             throw new RuntimeException("Credenciales inválidas");
         }
 
         Session session = new Session();
-        session.setUsuarioLdap(username);
+        session.setUsuarioLdap(user.username());
         session.setFechaInicio(LocalDateTime.now());
         session.setEstado("ACTIVA");
         session.setIpOrigen(ip);
-
         sessionRepository.save(session);
-        return "Login exitoso";
+
+        String token = jwtService.generateToken(user.username(), user.role());
+
+        return LoginResponseDto.builder()
+                .message("Login exitoso")
+                .token(token)
+                .username(user.username())
+                .role(user.role())
+                .build();
     }
 
     @Transactional
-    public String logout(String username) {
+    public String logout(String authorizationHeader) {
+        String token = jwtService.resolveToken(authorizationHeader);
+        String username = jwtService.extractUsername(token);
+
         Session session = sessionRepository
                 .findTopByUsuarioLdapAndEstadoOrderByFechaInicioDesc(username, "ACTIVA")
                 .orElseThrow(() -> new RuntimeException("No hay sesión activa"));

@@ -6,6 +6,7 @@ import org.springframework.web.client.RestClient;
 
 @Configuration
 public class AuthClientConfig {
+
     @Bean
     public RestClient restClient() {
         return RestClient.create();

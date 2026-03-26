@@ -14,7 +14,7 @@ public class CorsConfig implements WebMvcConfigurer {
                         "http://localhost:5500",
                         "http://127.0.0.1:5500",
                         "https://sara-mmkq.onrender.com"
-                )// Live Server
+                )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
     }

@@ -7,10 +7,12 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
+
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: false
+
   sql:
     init:
       mode: always
@@ -24,3 +26,6 @@ h2:
 
 msauth:
   base-url: ${MSAUTH_BASE_URL:https://ms-auth-2w01.onrender.com}
+
+jwt:
+  secret: ${JWT_SECRET:12345678901234567890123456789012}

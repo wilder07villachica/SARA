@@ -15,8 +15,8 @@ public class CorsConfig implements WebMvcConfigurer {
                         "http://127.0.0.1:5500",
                         "https://sara-mmkq.onrender.com"
                 )
-                .allowedMethods("GET","POST","PUT","DELETE","OPTIONS")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(false); // pon true solo si usarás cookies/sesión por navegador
+                .allowCredentials(false);
     }
 }

@@ -1,6 +1,3 @@
-// frontend-login/app.js
-
-// al cargar login, limpia bandera de sesión activa del navegador
 localStorage.setItem("ms_auth_active", "false");
 
 const el = (id) => document.getElementById(id);
@@ -21,14 +18,26 @@ function setStatus(msg) {
   statusBox.textContent = msg;
 }
 
-function setLoggedInUI(isLoggedIn) {
-  btnLogout.disabled = !isLoggedIn;
-  btnLogin.disabled = isLoggedIn;
-  usernameInput.disabled = isLoggedIn;
-  passwordInput.disabled = isLoggedIn;
+function saveSession(username, active, token, role) {
+  localStorage.setItem("ms_auth_username", username || "");
+  localStorage.setItem("ms_auth_active", active ? "true" : "false");
+  localStorage.setItem("ms_auth_token", token || "");
+  localStorage.setItem("ms_auth_role", role || "");
 }
 
-async function postForm(url, dataObj) {
+function restoreUI() {
+  const u = localStorage.getItem("ms_auth_username") || "";
+  if (u) usernameInput.value = u;
+
+  btnLogin.disabled = false;
+  usernameInput.disabled = false;
+  passwordInput.disabled = false;
+  if (btnLogout) btnLogout.disabled = true;
+
+  setStatus("Ingresa tus credenciales.");
+}
+
+async function postLogin(url, dataObj) {
   const body = new URLSearchParams(dataObj).toString();
 
   const res = await fetch(url, {
@@ -37,32 +46,11 @@ async function postForm(url, dataObj) {
     body,
   });
 
-  const text = await res.text();
-  if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
-  return text;
+  const data = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(data?.message || `HTTP ${res.status}`);
+  return data;
 }
 
-function saveSession(username, active) {
-  localStorage.setItem("ms_auth_username", username || "");
-  localStorage.setItem("ms_auth_active", active ? "true" : "false");
-}
-
-function restoreUI() {
-  const u = localStorage.getItem("ms_auth_username") || "";
-  if (u) usernameInput.value = u;
-
-  // En la pantalla de login SIEMPRE permitir intentar iniciar sesión
-  btnLogin.disabled = false;
-  usernameInput.disabled = false;
-  passwordInput.disabled = false;
-
-  // opcional: no usar logout en esta pantalla
-  if (btnLogout) btnLogout.disabled = true;
-
-  setStatus("Ingresa tus credenciales.");
-}
-
-// LOGIN -> redirige a dashboard.html
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -78,44 +66,22 @@ loginForm.addEventListener("submit", async (e) => {
   btnLogin.disabled = true;
 
   try {
-    const msg = await postForm(`${AUTH_BASE}/auth/login`, { username, password });
-    saveSession(username, true);
-    setStatus(msg || "Login exitoso");
+    const data = await postLogin(`${AUTH_BASE}/auth/login`, { username, password });
 
-    // Redirección
+    saveSession(data.username, true, data.token, data.role);
+    setStatus(data.message || "Login exitoso");
     window.location.href = "dashboard.html";
   } catch (err) {
-    saveSession(username, false);
-    setLoggedInUI(false);
+    saveSession(username, false, "", "");
     btnLogin.disabled = false;
     setStatus(err.message || "Error en login");
   }
 });
 
-// LOGOUT (en login)
-btnLogout?.addEventListener("click", async () => {
-  const username = usernameInput.value.trim();
-  if (!username) return;
-
-  setStatus("Cerrando sesión...");
-  btnLogout.disabled = true;
-
-  try {
-    const msg = await postForm(`${AUTH_BASE}/auth/logout`, { username });
-    saveSession(username, false);
-    setLoggedInUI(false);
-    passwordInput.value = "";
-    setStatus(msg || "Logout exitoso");
-  } catch (err) {
-    btnLogout.disabled = false;
-    setStatus(err.message || "Error en logout");
-  }
-});
-
 btnAutofill?.addEventListener("click", () => {
-  usernameInput.value = "testuser";
-  passwordInput.value = "test123";
-  setStatus("Credenciales de prueba cargadas.");
+  usernameInput.value = "admin.callcenter";
+  passwordInput.value = "Admin2026*";
+  setStatus("Credenciales demo cargadas.");
 });
 
 restoreUI();
