@@ -1,3 +1,3 @@
 // frontend-login/config.js
-const AUTH_BASE = "https://ms-auth-2w01.onrender.com";
-const API_BASE  = "https://ms-backend-api.onrender.com";
+const AUTH_BASE = "/api/auth";
+const API_BASE  = "/api/backend";
