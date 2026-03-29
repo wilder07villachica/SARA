@@ -25,7 +25,7 @@ h2:
     path: /h2-console
 
 msauth:
-  base-url: ${MSAUTH_BASE_URL:https://ms-auth-2w01.onrender.com}
+  base-url: ${MSAUTH_BASE_URL:http://localhost:8080}
 
 jwt:
   secret: ${JWT_SECRET:12345678901234567890123456789012}
